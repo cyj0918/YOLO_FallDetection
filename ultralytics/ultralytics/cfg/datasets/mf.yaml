@@ -1,0 +1,10 @@
+# tensorboard --logdir runs/train 
+# tensorboard --logdir runs/train --port 6007
+# ssh -L 6006:localhost:6007 jhen@127.0.0.1
+# yolo train data=ultralytics/cfg/datasets/mf.yaml model=yolo11n.pt epochs=100 device=mps
+path: /Users/jhen/Documents/CUHK-Project/dataset/yolo_worker_training/
+train: images/train/
+val: images/val/
+
+nc: 1
+names: ['target']
