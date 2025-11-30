@@ -35,7 +35,7 @@ def parse_args():
                         help="YAML dataset config for GT metrics (unused for path)")
     parser.add_argument("--conf", "-c", type=float, default=0.25,
                         help="Confidence threshold")
-    parser.add_argument("--iou", type=float, default=0.7,
+    parser.add_argument("--iou", type=float, default=0.2,
                         help="IoU threshold for NMS and GT matching")
     parser.add_argument("--imgsz", "--img-size", type=int, default=640,
                         help="Inference image size")

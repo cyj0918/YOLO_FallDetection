@@ -5,7 +5,7 @@ test_experiments.py
 自動執行YOLO測試實驗，包含記憶體清理以確保準確的推理速度測試
 針對已訓練的模型執行多輪測試
 
-Usage: python3 test_experiments.py --start-exp 2 --end-exp 10
+Usage: python3 test_experiments.py --start-exp 0 --end-exp 1
 """
 
 import subprocess
@@ -88,7 +88,7 @@ def run_command(cmd, dry_run=False):
 
 def check_model_exists(exp_num):
     """檢查模型檔案是否存在"""
-    model_path = f"/Users/jhen/Documents/CUHK-Project/ultralytics/exp{exp_num}/exp{exp_num}/weights/best.pt"
+    model_path = f"/Users/jhen/Library/Mobile Documents/com~apple~CloudDocs/出國資料/2025新加坡科技設計大學交換/Classes/51.504 Machine Learning/FallDetection/exp/exp{exp_num}/weights/best.pt"
     exists = os.path.exists(model_path)
     if not exists:
         print(f"⚠️  模型檔案不存在: {model_path}")
@@ -109,13 +109,12 @@ def test_experiment(exp_num, test_num, memory_wait, dry_run=False):
     print("🔄 準備測試環境...")
     clean_memory()
     wait_for_system_settle(memory_wait)
-
-    # 測試指令
-    test_cmd = (f"python3 tests/exp_evaluate.py "
-                f"--source /Users/jhen/Documents/CUHK-Project/dataset/yolo_worker_training/images/test/ "
-                f"--dataset-config ultralytics/cfg/datasets/mf.yaml "
-                f"--model /Users/jhen/Documents/CUHK-Project/ultralytics/exp{exp_num}/exp{exp_num}/weights/best.pt "
-                f"--project exp{exp_num} --name test{exp_num}-{test_num}")
+     # 測試指令
+    test_cmd = (f"python3 'tests/exp_evaluate.py' "
+                f"--source '/Users/jhen/Library/Mobile Documents/com~apple~CloudDocs/出國資料/2025新加坡科技設計大學交換/Classes/51.504 Machine Learning/FallDetection/dataset/FallDataset/images/test' "
+                f"--dataset-config '/Users/jhen/Library/Mobile Documents/com~apple~CloudDocs/出國資料/2025新加坡科技設計大學交換/Classes/51.504 Machine Learning/FallDetection/dataset/FallDataset/data.yaml' "
+                f"--model '/Users/jhen/Library/Mobile Documents/com~apple~CloudDocs/出國資料/2025新加坡科技設計大學交換/Classes/51.504 Machine Learning/FallDetection/exp/exp{exp_num}/weights/best.pt' "
+                f"--project 'exp{exp_num}' --name 'test{exp_num}-{test_num}'")
 
     print("🚀 開始推理測試...")
     if not run_command(test_cmd, dry_run):
@@ -123,10 +122,10 @@ def test_experiment(exp_num, test_num, memory_wait, dry_run=False):
 
     print("📊 生成統計資料...")
     # 統計指令
-    stats_cmd = (f"python3 tests/exp_statistic.py "
-                 f"--gt-dir /Users/jhen/Documents/CUHK-Project/dataset/yolo_worker_training/labels/test/ "
-                 f"--pred-dir /Users/jhen/Documents/CUHK-Project/ultralytics/exp{exp_num}/test{exp_num}-{test_num}2/labels "
-                 f"--output /Users/jhen/Documents/CUHK-Project/ultralytics/exp{exp_num}/test{exp_num}-{test_num}/statistics.json")
+    stats_cmd = (f"python3 'tests/exp_statistic.py' "
+                 f"--gt-dir '/Users/jhen/Library/Mobile Documents/com~apple~CloudDocs/出國資料/2025新加坡科技設計大學交換/Classes/51.504 Machine Learning/FallDetection/dataset/FallDataset/labels/test' "
+                 f"--pred-dir '/Users/jhen/Library/Mobile Documents/com~apple~CloudDocs/出國資料/2025新加坡科技設計大學交換/Classes/51.504 Machine Learning/FallDetection/ultralytics/exp{exp_num}/test{exp_num}-{test_num}-p/labels' "
+                 f"--output '/Users/jhen/Library/Mobile Documents/com~apple~CloudDocs/出國資料/2025新加坡科技設計大學交換/Classes/51.504 Machine Learning/FallDetection/ultralytics/exp{exp_num}/test{exp_num}-{test_num}/statistics.json'")
 
     return run_command(stats_cmd, dry_run)
 
